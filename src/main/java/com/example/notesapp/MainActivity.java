@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -55,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                Intent intent = new Intent(getApplicationContext(),editText.class);
+                Intent intent = new Intent(getApplicationContext(), EditText.class);
 
                 try {
                     intent.putExtra("text",ObjectSerializer.serialize(stringList));
@@ -109,11 +109,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume(){
+        super.onResume();
+        preferences = this.getSharedPreferences("com.example.notesapp", Context.MODE_PRIVATE);
+        try {
+            stringList = (ArrayList<String>) ObjectSerializer.deserialize(preferences.getString("text",ObjectSerializer.serialize(new ArrayList<String>())));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, stringList);
         list.setAdapter(adapter);
-
     }
 
     @Override
