@@ -121,19 +121,7 @@ public class MainActivity extends AppCompatActivity {
         list.setAdapter(adapter);
     }
 
-    @Override
-    public void onActivityReenter(int resultCode, Intent data) {
-        super.onActivityReenter(resultCode, data);
-        Log.i("onReEnter","true");
-        preferences = this.getSharedPreferences("com.example.notesapp", Context.MODE_PRIVATE);
-        try {
-            stringList = (ArrayList<String>) ObjectSerializer.deserialize(preferences.getString("text",ObjectSerializer.serialize(new ArrayList<String>())));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, stringList);
-        list.setAdapter(adapter);
-    }
+  
 
     @Override
     public void onBackPressed() {
